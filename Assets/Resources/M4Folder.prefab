@@ -11129,10 +11129,10 @@ MonoBehaviour:
   GunRange: Infinity
   SwayMultiplier: 4
   SwaySmooth: 8
-  GunRecoil: 1
+  GunRecoil: 100
   GunRecoilLerpSpeed: 0.02
-  GunRecoilYRight: 2
-  GunRecoilYLeft: -2
+  GunRecoilYRight: 10
+  GunRecoilYLeft: -10
   GunRecoilYLerpSpeed: 0.05
 --- !u!82 &2218248550596559440
 AudioSource:

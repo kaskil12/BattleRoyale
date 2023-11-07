@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public GameObject AimPosition;
     public bool Aiming;
     public float HandLerpSpeed;
+    public GameObject Body;
     [Header("Weapons")]
     public GameObject HandObject;
     public int currentWeapon = 0;
@@ -95,6 +96,9 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             MyCamera.enabled = true;
             MyCamera.GetComponent<AudioListener>().enabled = true;
             MyCamera = GetComponentInChildren<Camera>();
+            Body.GetComponent<MeshRenderer>().enabled = false;
+            
+          
             if(weaponSlots[currentWeapon] != null){
                 AmmoText.enabled = true;
             AmmoText.text =  weaponSlots[currentWeapon].GetComponent<GunScript>().AmmoAmount.ToString() + "/" + weaponSlots[currentWeapon].GetComponent<GunScript>().FullClipAmount.ToString();
@@ -195,7 +199,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }
         AudioListener.volume = VolumeSlider.value;
         Sensitivity = SensetivitySlider.value;
-        if (Input.GetKey(KeyCode.C) && IsGrounded) {
+        if (Input.GetKey(KeyCode.C) && IsGrounded || Input.GetKey(KeyCode.LeftControl) && IsGrounded) {
         if (Input.GetKeyDown(KeyCode.C) && !Sliding) {
             Sliding = true; // Set the sliding state to true
         }
@@ -210,7 +214,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         // Restore any other properties as needed when not sliding
         CapsuleHeight = Mathf.Lerp(CapsuleHeight, 2, 0.05f);
         }
-        if(Input.GetKeyUp(KeyCode.C)){
+        if(Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.LeftControl)){
             StartCoroutine(AfterSlide());
         }
         
