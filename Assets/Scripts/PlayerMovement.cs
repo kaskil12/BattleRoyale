@@ -101,7 +101,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
           
             if(weaponSlots[currentWeapon] != null){
                 AmmoText.enabled = true;
-            AmmoText.text =  weaponSlots[currentWeapon].GetComponent<GunScript>().AmmoAmount.ToString() + "/" + weaponSlots[currentWeapon].GetComponent<GunScript>().FullClipAmount.ToString();
+                if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
+                    AmmoText.text =  weaponSlots[currentWeapon].GetComponent<GunScript>().AmmoAmount.ToString() + "/" + weaponSlots[currentWeapon].GetComponent<GunScript>().FullClipAmount.ToString();
+                }else{
+                    AmmoText.text =  weaponSlots[currentWeapon].GetComponent<RPGScript>().AmmoAmount.ToString() + "/" + weaponSlots[currentWeapon].GetComponent<RPGScript>().FullClipAmount.ToString();
+                }
             }else{
                 AmmoText.enabled = false;
             }
@@ -155,7 +159,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             photonView.RPC("GunSlot1", RpcTarget.AllBuffered);
             ActivateCurrentGun();
             photonView.RPC("ActivateCurrentGun", RpcTarget.AllBuffered);
+            if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
             weaponSlots[currentWeapon].GetComponent<GunScript>().Equip();
+            }else{
+                weaponSlots[currentWeapon].GetComponent<RPGScript>().Equip();
+            }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -163,7 +171,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             photonView.RPC("GunSlot2", RpcTarget.AllBuffered);
             ActivateCurrentGun();
             photonView.RPC("ActivateCurrentGun", RpcTarget.AllBuffered);
+            if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
             weaponSlots[currentWeapon].GetComponent<GunScript>().Equip();
+            }else{
+                weaponSlots[currentWeapon].GetComponent<RPGScript>().Equip();
+            }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
@@ -171,7 +183,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             photonView.RPC("GunSlot3", RpcTarget.AllBuffered);
             ActivateCurrentGun();
             photonView.RPC("ActivateCurrentGun", RpcTarget.AllBuffered);
+            if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
             weaponSlots[currentWeapon].GetComponent<GunScript>().Equip();
+            }else{
+                weaponSlots[currentWeapon].GetComponent<RPGScript>().Equip();
+            }
         }
         if(Input.GetKeyDown(KeyCode.G) && weaponSlots[currentWeapon] != null){
             DropGun();
@@ -311,7 +327,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     [PunRPC]
     public void DropGun(){
         weaponSlots[currentWeapon].transform.SetParent(null);
+        if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
         weaponSlots[currentWeapon].GetComponent<GunScript>().Enabled = false;
+        }else{
+            weaponSlots[currentWeapon].GetComponent<RPGScript>().Enabled = false;
+        }
         weaponSlots[currentWeapon].transform.position = Unequip.transform.position;
         weaponSlots[currentWeapon].transform.rotation = Unequip.transform.rotation;
         weaponSlots[currentWeapon] = null;
@@ -341,7 +361,12 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                 weaponSlots[nextAvailableSlot].transform.position = HandObject.transform.position;
                 weaponSlots[nextAvailableSlot].transform.rotation = HandObject.transform.rotation;
                 weaponSlots[nextAvailableSlot].transform.parent = HandObject.transform;
+                if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
                 weaponSlots[nextAvailableSlot].GetComponent<GunScript>().Enabled = true;
+                }else{
+                    weaponSlots[nextAvailableSlot].GetComponent<RPGScript>().Enabled = true;
+
+                }
             }
             else
             {

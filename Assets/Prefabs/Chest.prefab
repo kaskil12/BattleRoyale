@@ -316,6 +316,7 @@ MonoBehaviour:
   - {fileID: 4856009967255882903, guid: e28ff51107bd8cd498dc04a811dfdb0b, type: 3}
   - {fileID: 5594706724864288047, guid: 7831679e0d87a794da49552eafa08d70, type: 3}
   - {fileID: 4212156283511744716, guid: a59ab37415b218d4baf9899e2129f4df, type: 3}
+  - {fileID: 6586156402454542297, guid: cfe5971a9a7493948aec686edfb8d838, type: 3}
   spawnPoints:
   - {fileID: 950776712803290557}
   - {fileID: 4901112250747522886}
