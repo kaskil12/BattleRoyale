@@ -23,6 +23,7 @@ public class GunScript : MonoBehaviourPunCallbacks
     public bool GunRun;
     public bool WalkingPlayer;
     [Header("GunSpesifications")]
+    public float EquipDelayAmount;
     public float AmmoAmount;
     public float RunningAccuracy;
     public float WalkingAccuracy;
@@ -161,7 +162,7 @@ public class GunScript : MonoBehaviourPunCallbacks
     }
     IEnumerator EquipDelay(){
         Equiping = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(EquipDelayAmount);
         Equiping = false;
         Shoot = true;
         Reloading = false;

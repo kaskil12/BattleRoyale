@@ -9836,6 +9836,7 @@ MonoBehaviour:
   Shooting: 0
   GunRun: 0
   WalkingPlayer: 0
+  EquipDelayAmount: 1
   AmmoAmount: 12
   RunningAccuracy: 0.15
   WalkingAccuracy: 0.04

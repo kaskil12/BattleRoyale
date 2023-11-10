@@ -8,11 +8,11 @@ public class RPGScript : MonoBehaviourPunCallbacks
     public bool Shoot;
     public AudioSource ShootSound;
     public GameObject BulletHoleM14;
-    //public ParticleSystem //flash;
+    public ParticleSystem flash;
     public RaycastHit GunHit;
-    //public Animator //////GunAnim;
-    //public ParticleSystem //tracer;
-    //public GameObject //tracerObject;
+    public Animator GunAnim;
+    public ParticleSystem tracer;
+    public GameObject tracerObject;
     public Camera GunCam;
     public bool RunningPlayer;
     public bool LocalCheck;
@@ -22,6 +22,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
     public GameObject Projectile;
     public GameObject ProjectileSpawnPos;
     [Header("GunSpesifications")]
+    public float EquipDelayAmount;
     public float ProjectileSpeed;
     public float AmmoAmount;
     public float RunningAccuracy;
@@ -60,9 +61,9 @@ public class RPGScript : MonoBehaviourPunCallbacks
         if(Enabled){
             Transform parentTransform = transform.parent;
             if(!Shooting && !Reloading && parentTransform.parent.parent.GetComponentInParent<PlayerMovement>().Running){
-                //////GunAnim.SetBool("Run", true);
+                GunAnim.SetBool("Run", true);
             }else{
-                //////GunAnim.SetBool("Run", false);
+                GunAnim.SetBool("Run", false);
             }
         LocalCheck = parentTransform.parent.parent.GetComponentInParent<PlayerMovement>().IsLocalPlayerOwner;
         }
@@ -91,9 +92,16 @@ public class RPGScript : MonoBehaviourPunCallbacks
             playerMovement.camY = CamYisLerp && Shooting ? Mathf.Lerp(playerMovement.camY, +CamYlerpTarget, GunRecoilYLerpSpeed) : playerMovement.camY;
             if(playerMovement.camY == CamYlerpTarget) CamYisLerp = false;
             if(playerMovement.camX == lerpTarget) isLerp = false;
+        //Hiding the projectile when no ammo and shot
+            if(AmmoAmount == 0){
+                ProjectileSpawnPos.GetComponent<MeshRenderer>().enabled = false;
+            }else{
+                ProjectileSpawnPos.GetComponent<MeshRenderer>().enabled = true;
+
+            }
         }else{
             if(!Enabled){
-            //////GunAnim.SetBool("Run", false);
+            GunAnim.SetBool("Run", false);
             }
         }
     }
@@ -102,26 +110,14 @@ public class RPGScript : MonoBehaviourPunCallbacks
         Shooting = true;
         AmmoAmount -= 1;
         StartCoroutine(ShootDelay());
-        //flash.Play();
         ShootSound.Play();
-        //////GunAnim.SetTrigger("Shoot");
+        GunAnim.SetTrigger("Shoot");
         if (GunCam != null && Physics.Raycast(GunCam.transform.position, GunCam.transform.forward, out GunHit, GunRange))
         {
             //Instantiating rpg projectile
             Vector3 targetPoint = GunHit.point;
             GameObject ProjectileClone = PhotonNetwork.Instantiate(Projectile.name, ProjectileSpawnPos.transform.position, ProjectileSpawnPos.transform.rotation);
             ProjectileClone.GetComponent<Rigidbody>().AddForce(transform.forward * ProjectileSpeed * Time.deltaTime, ForceMode.VelocityChange);
-            if (GunHit.collider.tag == "Player")
-            {
-            // PhotonView hitView = GunHit.transform.GetComponent<PhotonView>();
-            // hitView.RPC("TakeDamage", RpcTarget.AllBuffered, DamageAmountGunBody);
-
-            }
-            if (GunHit.collider.tag == "Head")
-            {
-            // PhotonView hitView = GunHit.transform.GetComponent<PhotonView>();
-            // hitView.RPC("TakeDamage", RpcTarget.AllBuffered, DamageAmountGunHead);
-            }
         }
         lerpTarget = transform.root.GetComponent<PlayerMovement>().camX - GunRecoil;
         isLerp = true;
@@ -137,7 +133,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
      IEnumerator Reload(){
         Shoot = false;
         Reloading = true;
-        //.SetTrigger("Reload");
+        GunAnim.SetTrigger("Reload");
         yield return new WaitForSeconds(ReloadDelayAmount);
         AmmoAmount = FullClipAmount;
         Reloading = false;
@@ -158,12 +154,12 @@ public class RPGScript : MonoBehaviourPunCallbacks
     }
     bool Equiping = false;
     public void Equip(){
-        ////////GunAnim.SetTrigger("EquipAnim");
+        GunAnim.SetTrigger("EquipAnim");
         StartCoroutine(EquipDelay());
     }
     IEnumerator EquipDelay(){
         Equiping = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(EquipDelayAmount);
         Equiping = false;
         Shoot = true;
         Reloading = false;

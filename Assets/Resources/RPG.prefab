@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 7031037744336573933}
   - component: {fileID: 2096757108370232094}
   - component: {fileID: 1149624120593328384}
+  - component: {fileID: 1056084678827804248}
   m_Layer: 0
   m_Name: RPG
   m_TagString: Gun
@@ -171,6 +172,10 @@ MonoBehaviour:
   Shoot: 0
   ShootSound: {fileID: 4717358489907688358}
   BulletHoleM14: {fileID: 0}
+  flash: {fileID: 0}
+  GunAnim: {fileID: 1056084678827804248}
+  tracer: {fileID: 0}
+  tracerObject: {fileID: 0}
   GunCam: {fileID: 0}
   RunningPlayer: 0
   LocalCheck: 0
@@ -179,12 +184,13 @@ MonoBehaviour:
   WalkingPlayer: 0
   Projectile: {fileID: 6496210860891048003, guid: 225ab0d3a9ee08b419518048713146e9, type: 3}
   ProjectileSpawnPos: {fileID: 6939568060191806894}
-  ProjectileSpeed: 2500
+  EquipDelayAmount: 1
+  ProjectileSpeed: 10000
   AmmoAmount: 1
   RunningAccuracy: 0
   WalkingAccuracy: 0
   ShootDelayAmount: 0.1
-  ReloadDelayAmount: 5
+  ReloadDelayAmount: 3
   FullClipAmount: 1
   DamageAmountGunBody: 50
   DamageAmountGunHead: 50
@@ -367,8 +373,29 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.28, y: 0.38, z: 1.51}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &1056084678827804248
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6586156402454542297}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 004b73a14d605b243b8ec5d6c35b8c08, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6939568060191806894
 GameObject:
   m_ObjectHideFlags: 0
