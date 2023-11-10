@@ -85,7 +85,7 @@ public class GunScript : MonoBehaviourPunCallbacks
         Quaternion rotationX = Quaternion.AngleAxis(-mouseY, Vector3.right);
         Quaternion rotationY = Quaternion.AngleAxis(mouseX, Vector3.up);
         Quaternion targetRotation = rotationX * rotationY;
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, SwaySmooth * Time.deltaTime);
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, SwaySmooth * Time.fixedDeltaTime);
         //cameraShake
             PlayerMovement playerMovement = transform.root.GetComponent<PlayerMovement>();;
             playerMovement.camX = isLerp && Shooting ? Mathf.Lerp(playerMovement.camX, +lerpTarget, GunRecoilLerpSpeed) : playerMovement.camX;

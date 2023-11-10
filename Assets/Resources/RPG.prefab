@@ -185,7 +185,7 @@ MonoBehaviour:
   Projectile: {fileID: 6496210860891048003, guid: 225ab0d3a9ee08b419518048713146e9, type: 3}
   ProjectileSpawnPos: {fileID: 6939568060191806894}
   EquipDelayAmount: 1
-  ProjectileSpeed: 10000
+  ProjectileSpeed: 200
   AmmoAmount: 1
   RunningAccuracy: 0
   WalkingAccuracy: 0
@@ -212,8 +212,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 65f5766cf2c2d4f48abdc923b71f0d64, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -223,7 +223,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -258,7 +258,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

@@ -2401,8 +2401,8 @@ MonoBehaviour:
   Running: 0
   IsLocalPlayerOwner: 0
   CapsuleHeight: 0
-  WalkSpeed: 100
-  RunningSpeed: 150
+  WalkSpeed: 25
+  RunningSpeed: 50
   HipPosition: {fileID: 3271044088494676845}
   AimPosition: {fileID: 8591569235756991644}
   Aiming: 0

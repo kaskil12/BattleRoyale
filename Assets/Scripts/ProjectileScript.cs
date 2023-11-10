@@ -26,7 +26,7 @@ public class ProjectileScript : MonoBehaviourPunCallbacks
             // Apply force to rigidbodies
             if (hitCollider.transform.root.TryGetComponent(out Rigidbody rb))
             {
-                rb.AddExplosionForce(ProjectileForce * Time.deltaTime, transform.position, HitRange);
+                rb.AddExplosionForce(ProjectileForce * Time.fixedDeltaTime, transform.position, HitRange);
             }
 
             PhotonView hitView = hitCollider.transform.root.GetComponent<PhotonView>();

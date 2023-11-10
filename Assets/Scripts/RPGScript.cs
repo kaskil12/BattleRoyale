@@ -85,7 +85,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
         Quaternion rotationX = Quaternion.AngleAxis(-mouseY, Vector3.right);
         Quaternion rotationY = Quaternion.AngleAxis(mouseX, Vector3.up);
         Quaternion targetRotation = rotationX * rotationY;
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, SwaySmooth * Time.deltaTime);
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, SwaySmooth * Time.fixedDeltaTime);
         //cameraShake
             PlayerMovement playerMovement = transform.root.GetComponent<PlayerMovement>();
             playerMovement.camX = isLerp && Shooting ? Mathf.Lerp(playerMovement.camX, +lerpTarget, GunRecoilLerpSpeed) : playerMovement.camX;
@@ -117,7 +117,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
             //Instantiating rpg projectile
             Vector3 targetPoint = GunHit.point;
             GameObject ProjectileClone = PhotonNetwork.Instantiate(Projectile.name, ProjectileSpawnPos.transform.position, ProjectileSpawnPos.transform.rotation);
-            ProjectileClone.GetComponent<Rigidbody>().AddForce(transform.forward * ProjectileSpeed * Time.deltaTime, ForceMode.VelocityChange);
+            ProjectileClone.GetComponent<Rigidbody>().AddForce(transform.forward * Time.fixedDeltaTime * ProjectileSpeed, ForceMode.VelocityChange);
         }
         lerpTarget = transform.root.GetComponent<PlayerMovement>().camX - GunRecoil;
         isLerp = true;

@@ -147,7 +147,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
       }
       if(!IsGrounded)
       {
-        speed = 3;
+        speed = 1;
       }
       if(Input.GetKeyDown(KeyCode.E)){
         photonView.RPC("Pickup", RpcTarget.AllBuffered);
@@ -250,7 +250,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             HasLerped = false;
         }
         if (Aiming && !HasLerped) {
-        HandObject.transform.localPosition = Vector3.Lerp(HandObject.transform.localPosition, AimPosition.transform.localPosition, HandLerpSpeed * Time.deltaTime);
+        HandObject.transform.localPosition = Vector3.Lerp(HandObject.transform.localPosition, AimPosition.transform.localPosition, HandLerpSpeed * Time.fixedDeltaTime);
         if (Vector3.Distance(HandObject.transform.localPosition, AimPosition.transform.localPosition) < 0.01f) {
             HandObject.transform.localPosition = AimPosition.transform.localPosition;
             HasLerped = true;
@@ -258,7 +258,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     }
 
     if (!Aiming && !HasLerped) {
-        HandObject.transform.localPosition = Vector3.Lerp(HandObject.transform.localPosition, HipPosition.transform.localPosition, HandLerpSpeed * Time.deltaTime);
+        HandObject.transform.localPosition = Vector3.Lerp(HandObject.transform.localPosition, HipPosition.transform.localPosition, HandLerpSpeed * Time.fixedDeltaTime);
         if (Vector3.Distance(HandObject.transform.localPosition, HipPosition.transform.localPosition) < 0.01f) {
             HandObject.transform.localPosition = HipPosition.transform.localPosition;
             HasLerped = true;
@@ -274,7 +274,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     void FixedUpdate(){
         if (Sliding && !hasAppliedForce && SlidAble) {
             StartCoroutine(SlideForceDelay());
-            rb.AddForce(transform.forward * 200 * Time.deltaTime, ForceMode.VelocityChange);
+            rb.AddForce(transform.forward * 100 * Time.fixedDeltaTime, ForceMode.VelocityChange);
             hasAppliedForce = true;
         }
     }
@@ -396,7 +396,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     float moveX = Input.GetAxisRaw("Horizontal");
     float moveZ = Input.GetAxisRaw("Vertical");
     Vector3 moveDirection = (moveX * transform.right + moveZ * transform.forward).normalized;
-    Vector3 move = moveDirection * speed * Time.deltaTime;
+    Vector3 move = moveDirection * speed * Time.fixedDeltaTime;
     rb.AddForce(move, ForceMode.VelocityChange);
 }
 
