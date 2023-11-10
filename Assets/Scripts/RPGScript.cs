@@ -105,6 +105,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
             }
         }
     }
+    [PunRPC]
     void CallGun()
     { 
         Shooting = true;
@@ -140,7 +141,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
         Shoot = true;
     }
     
-
+    [PunRPC]
     Vector3 CalculateBulletDirection()
     {
         Vector3 direction = GunCam.transform.forward;

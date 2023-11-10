@@ -151,7 +151,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
       }
       if(Input.GetKeyDown(KeyCode.E)){
         photonView.RPC("Pickup", RpcTarget.AllBuffered);
-      Pickup();
+        Pickup();
       }
       if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -199,6 +199,9 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         if(Health <= 0){
             StartCoroutine(Dying());
         }
+        if(Health > 100){
+            Health = 100;
+        }
         if(Input.GetKeyDown(KeyCode.Escape)){
             SettingsActive = !SettingsActive;
         }
@@ -223,7 +226,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             Sliding = true;
             GetComponentInChildren<CapsuleCollider>().material.dynamicFriction = 0;
             GetComponentInChildren<CapsuleCollider>().material.staticFriction = 0f;
-            CapsuleHeight = Mathf.Lerp(CapsuleHeight, 1, 0.05f);
+            CapsuleHeight = Mathf.Lerp(CapsuleHeight, 0.5f, 0.05f);
             rb.drag = 0.2f;
             rb.mass = 10;
         } else {
@@ -338,7 +341,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     }
     
     [PunRPC]
-    void Pickup()
+void Pickup()
 {
     if (Physics.Raycast(MyCamera.transform.position, MyCamera.transform.forward, out RaycastHit PickupHit, 5))
     {
@@ -357,16 +360,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
             if (nextAvailableSlot != -1)
             {
-                weaponSlots[nextAvailableSlot] = PickupHit.transform.gameObject;
-                weaponSlots[nextAvailableSlot].transform.position = HandObject.transform.position;
-                weaponSlots[nextAvailableSlot].transform.rotation = HandObject.transform.rotation;
-                weaponSlots[nextAvailableSlot].transform.parent = HandObject.transform;
-                if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
-                weaponSlots[nextAvailableSlot].GetComponent<GunScript>().Enabled = true;
-                }else{
-                    weaponSlots[nextAvailableSlot].GetComponent<RPGScript>().Enabled = true;
-
-                }
+                // Notify all clients that the gun has been picked up
+                photonView.RPC("SyncPickup", RpcTarget.All, PickupHit.transform.gameObject.GetPhotonView().ViewID, nextAvailableSlot);
             }
             else
             {
@@ -374,6 +369,22 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                 Debug.Log("All weapon slots are full!");
             }
         }
+    }
+}
+
+[PunRPC]
+void SyncPickup(int gunViewID, int slotIndex)
+{
+    GameObject gun = PhotonView.Find(gunViewID).gameObject;
+
+    weaponSlots[slotIndex] = gun;
+    weaponSlots[slotIndex].transform.position = HandObject.transform.position;
+    weaponSlots[slotIndex].transform.rotation = HandObject.transform.rotation;
+    weaponSlots[slotIndex].transform.parent = HandObject.transform;
+    if(weaponSlots[slotIndex].GetComponent<GunScript>() != null){
+        weaponSlots[slotIndex].GetComponent<GunScript>().Enabled = true;
+    }else{
+        weaponSlots[slotIndex].GetComponent<RPGScript>().Enabled = true;
     }
 }
 

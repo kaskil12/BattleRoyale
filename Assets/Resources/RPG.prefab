@@ -185,7 +185,7 @@ MonoBehaviour:
   Projectile: {fileID: 6496210860891048003, guid: 225ab0d3a9ee08b419518048713146e9, type: 3}
   ProjectileSpawnPos: {fileID: 6939568060191806894}
   EquipDelayAmount: 1
-  ProjectileSpeed: 200
+  ProjectileSpeed: 1000
   AmmoAmount: 1
   RunningAccuracy: 0
   WalkingAccuracy: 0

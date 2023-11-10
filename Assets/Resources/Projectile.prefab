@@ -5035,7 +5035,7 @@ MonoBehaviour:
   Explosion: {fileID: 6253216047710665674, guid: bee8d3624350c2940a5c1289e377c9d7, type: 3}
   HitRange: 10
   ProjectileDamage: 10
-  ProjectileForce: 10000
+  ProjectileForce: 15000
   PlayerMask:
     serializedVersion: 2
     m_Bits: 8

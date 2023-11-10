@@ -10,20 +10,22 @@ public class ProjectileScript : MonoBehaviourPunCallbacks
     public float ProjectileDamage;
     public float ProjectileForce;
     public LayerMask PlayerMask;
+    private PhotonView photonView;
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        // No need for Update method
+        photonView = GetComponent<PhotonView>();
     }
 
+    [PunRPC]
     void OnCollisionStay(Collision collision)
     {
+        if (!photonView.IsMine) return;
+
         Collider[] colliders = Physics.OverlapSphere(transform.position, HitRange, PlayerMask);
 
         foreach (Collider hitCollider in colliders)
         {
-            // Apply force to rigidbodies
             if (hitCollider.transform.root.TryGetComponent(out Rigidbody rb))
             {
                 rb.AddExplosionForce(ProjectileForce * Time.fixedDeltaTime, transform.position, HitRange);
@@ -36,7 +38,8 @@ public class ProjectileScript : MonoBehaviourPunCallbacks
         }
 
         GameObject ExplosionClone = PhotonNetwork.Instantiate(Explosion.name, gameObject.transform.position, gameObject.transform.rotation);
-        Destroy(ExplosionClone, 2);
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
+    
+
 }

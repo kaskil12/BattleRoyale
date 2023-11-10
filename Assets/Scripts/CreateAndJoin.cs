@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,9 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        PhotonNetwork.CreateRoom(input_Create.text);
+        if(!String.IsNullOrEmpty(input_Create.text)){
+            PhotonNetwork.CreateRoom(input_Create.text);
+        }
     }
 
     public void JoinRoom()
