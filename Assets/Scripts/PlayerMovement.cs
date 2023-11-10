@@ -407,7 +407,7 @@ void SyncPickup(int gunViewID, int slotIndex)
     float moveX = Input.GetAxisRaw("Horizontal");
     float moveZ = Input.GetAxisRaw("Vertical");
     Vector3 moveDirection = (moveX * transform.right + moveZ * transform.forward).normalized;
-    Vector3 move = moveDirection * speed * Time.fixedDeltaTime;
+    Vector3 move = moveDirection * speed * Time.deltaTime;
     rb.AddForce(move, ForceMode.VelocityChange);
 }
 
