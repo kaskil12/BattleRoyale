@@ -86,7 +86,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
         Quaternion targetRotation = rotationX * rotationY;
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, SwaySmooth * Time.deltaTime);
         //cameraShake
-            PlayerMovement playerMovement = transform.root.GetComponent<PlayerMovement>();;
+            PlayerMovement playerMovement = transform.root.GetComponent<PlayerMovement>();
             playerMovement.camX = isLerp && Shooting ? Mathf.Lerp(playerMovement.camX, +lerpTarget, GunRecoilLerpSpeed) : playerMovement.camX;
             playerMovement.camY = CamYisLerp && Shooting ? Mathf.Lerp(playerMovement.camY, +CamYlerpTarget, GunRecoilYLerpSpeed) : playerMovement.camY;
             if(playerMovement.camY == CamYlerpTarget) CamYisLerp = false;
@@ -115,6 +115,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
             {
             // PhotonView hitView = GunHit.transform.GetComponent<PhotonView>();
             // hitView.RPC("TakeDamage", RpcTarget.AllBuffered, DamageAmountGunBody);
+
             }
             if (GunHit.collider.tag == "Head")
             {
