@@ -5032,9 +5032,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Explosion: {fileID: 6253216047710665674, guid: bee8d3624350c2940a5c1289e377c9d7, type: 3}
-  HitRange: 20
+  HitRange: 500
   ProjectileDamage: 25
-  ProjectileForce: 7000
+  ProjectileForce: 20000
+  Hit: 0
+  PlayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!65 &4307841526647835806
 BoxCollider:
   m_ObjectHideFlags: 0
