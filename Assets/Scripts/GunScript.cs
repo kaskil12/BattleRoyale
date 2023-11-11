@@ -50,9 +50,11 @@ public class GunScript : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        GetComponent<BoxCollider>().enabled = false;
         AmmoAmount = FullClipAmount;
         Enabled = false;
         Shoot = true;
+        StartCoroutine(EquipDelayPickup());
     }
 
     // Update is called once per frame
@@ -167,5 +169,10 @@ public class GunScript : MonoBehaviourPunCallbacks
         Equiping = false;
         Shoot = true;
         Reloading = false;
+    }
+    //coroutine that makes the weapon not be pickuppable for a short time
+    IEnumerator EquipDelayPickup(){
+        yield return new WaitForSeconds(1f);
+        GetComponent<BoxCollider>().enabled = true;
     }
 }

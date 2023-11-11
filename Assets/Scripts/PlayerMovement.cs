@@ -41,6 +41,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public bool Aiming;
     public float HandLerpSpeed;
     public GameObject Body;
+    //Show what weapon is active
+    public GameObject[] ActiveWeapon;
     [Header("Weapons")]
     public GameObject HandObject;
     public int currentWeapon = 0;
@@ -153,6 +155,35 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         photonView.RPC("Pickup", RpcTarget.AllBuffered);
         Pickup();
       }
+      //Display what gun is active
+            ActiveWeapon[0].SetActive(false);
+            ActiveWeapon[1].SetActive(false);
+            ActiveWeapon[2].SetActive(false);
+            if(currentWeapon == 0){
+                ActiveWeapon[0].SetActive(true);
+            }else if(currentWeapon == 1){
+                ActiveWeapon[1].SetActive(true);
+            }else if(currentWeapon == 2){
+                ActiveWeapon[2].SetActive(true);
+            }
+      //ScrollWheel
+        if(Input.GetAxis("Mouse ScrollWheel") > 0f){
+            if(currentWeapon >= weaponSlots.Length - 1){
+                currentWeapon = 0;
+            }else{
+                currentWeapon += 1;
+            }
+            photonView.RPC("ActivateCurrentGun", RpcTarget.AllBuffered);
+            if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
+                weaponSlots[currentWeapon].GetComponent<GunScript>().Equip();
+                }else{
+                    weaponSlots[currentWeapon].GetComponent<RPGScript>().Equip();
+                }
+        }
+      //Set Current Weapon active all the time if weapon is not null
+        if(weaponSlots[currentWeapon] != null){
+            ActivateCurrentGun();
+        }
       if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             currentWeapon = 0;

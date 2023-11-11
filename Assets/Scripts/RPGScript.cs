@@ -50,9 +50,11 @@ public class RPGScript : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        GetComponent<BoxCollider>().enabled = false;
         AmmoAmount = FullClipAmount;
         Enabled = false;
         Shoot = true;
+        StartCoroutine(EquipDelayPickup());
     }
 
     // Update is called once per frame
@@ -164,5 +166,9 @@ public class RPGScript : MonoBehaviourPunCallbacks
         Equiping = false;
         Shoot = true;
         Reloading = false;
+    }
+    IEnumerator EquipDelayPickup(){
+        yield return new WaitForSeconds(1f);
+        GetComponent<BoxCollider>().enabled = true;
     }
 }
