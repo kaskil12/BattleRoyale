@@ -180,6 +180,20 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                     weaponSlots[currentWeapon].GetComponent<RPGScript>().Equip();
                 }
         }
+        //Downscroll wheel
+        if(Input.GetAxis("Mouse ScrollWheel") < 0f){
+            if(currentWeapon <= 0){
+                currentWeapon = weaponSlots.Length - 1;
+            }else{
+                currentWeapon -= 1;
+            }
+            photonView.RPC("ActivateCurrentGun", RpcTarget.AllBuffered);
+            if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
+                weaponSlots[currentWeapon].GetComponent<GunScript>().Equip();
+                }else{
+                    weaponSlots[currentWeapon].GetComponent<RPGScript>().Equip();
+                }
+        }
       //Set Current Weapon active all the time if weapon is not null
         if(weaponSlots[currentWeapon] != null){
             ActivateCurrentGun();
