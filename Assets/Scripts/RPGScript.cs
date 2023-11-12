@@ -21,6 +21,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
     public bool WalkingPlayer;
     public GameObject Projectile;
     public GameObject ProjectileSpawnPos;
+    bool isShooting = false;
     [Header("GunSpesifications")]
     public float EquipDelayAmount;
     public float ProjectileSpeed;
@@ -44,6 +45,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
     float lerpTarget = 0;
     bool CamYisLerp = false;
     float CamYlerpTarget = 0;
+    public float AimFov;
 
 
 
@@ -90,8 +92,8 @@ public class RPGScript : MonoBehaviourPunCallbacks
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, SwaySmooth * Time.fixedDeltaTime);
         //cameraShake
             PlayerMovement playerMovement = transform.root.GetComponent<PlayerMovement>();
-            playerMovement.camX = isLerp && Shooting ? Mathf.Lerp(playerMovement.camX, +lerpTarget, GunRecoilLerpSpeed) : playerMovement.camX;
-            playerMovement.camY = CamYisLerp && Shooting ? Mathf.Lerp(playerMovement.camY, +CamYlerpTarget, GunRecoilYLerpSpeed) : playerMovement.camY;
+            playerMovement.camX = isLerp && isShooting ? Mathf.Lerp(playerMovement.camX, +lerpTarget, GunRecoilLerpSpeed) : playerMovement.camX;
+            playerMovement.camY = CamYisLerp && isShooting ? Mathf.Lerp(playerMovement.camY, +CamYlerpTarget, GunRecoilYLerpSpeed) : playerMovement.camY;
             if(playerMovement.camY == CamYlerpTarget) CamYisLerp = false;
             if(playerMovement.camX == lerpTarget) isLerp = false;
         //Hiding the projectile when no ammo and shot
@@ -113,6 +115,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
         Shooting = true;
         AmmoAmount -= 1;
         StartCoroutine(ShootDelay());
+        StartCoroutine(LerpStop());
         ShootSound.Play();
         GunAnim.SetTrigger("Shoot");
         if (GunCam != null && Physics.Raycast(GunCam.transform.position, GunCam.transform.forward, out GunHit, GunRange))
@@ -126,6 +129,13 @@ public class RPGScript : MonoBehaviourPunCallbacks
         isLerp = true;
         CamYlerpTarget = transform.root.GetComponent<PlayerMovement>().camY - Random.Range(GunRecoilYLeft, GunRecoilYRight);
         CamYisLerp = true;
+    }
+    IEnumerator LerpStop(){
+        isShooting = true;
+        yield return new WaitForSeconds(0.2f);
+        isShooting = false;
+        isLerp = false;
+        CamYisLerp = false;
     }
     IEnumerator ShootDelay(){
         Shoot = false;
@@ -163,6 +173,8 @@ public class RPGScript : MonoBehaviourPunCallbacks
     IEnumerator EquipDelay(){
         Equiping = true;
         yield return new WaitForSeconds(EquipDelayAmount);
+        isLerp = false;
+        CamYisLerp = false;
         Equiping = false;
         Shoot = true;
         Reloading = false;

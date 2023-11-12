@@ -189,7 +189,7 @@ MonoBehaviour:
   AmmoAmount: 1
   RunningAccuracy: 0
   WalkingAccuracy: 0
-  ShootDelayAmount: 0.1
+  ShootDelayAmount: 1
   ReloadDelayAmount: 3
   FullClipAmount: 1
   DamageAmountGunBody: 50
@@ -202,6 +202,7 @@ MonoBehaviour:
   GunRecoilYRight: 2
   GunRecoilYLeft: -2
   GunRecoilYLerpSpeed: 0.02
+  AimFov: 45
 --- !u!82 &4717358489907688358
 AudioSource:
   m_ObjectHideFlags: 0

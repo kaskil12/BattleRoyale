@@ -5097,6 +5097,7 @@ MonoBehaviour:
   GunRecoilYRight: 7
   GunRecoilYLeft: -7
   GunRecoilYLerpSpeed: 0.05
+  AimFov: 55
 --- !u!95 &813256855007775052
 Animator:
   serializedVersion: 5

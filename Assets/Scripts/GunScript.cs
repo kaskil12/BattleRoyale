@@ -22,6 +22,7 @@ public class GunScript : MonoBehaviourPunCallbacks
     public bool Shooting;
     public bool GunRun;
     public bool WalkingPlayer;
+    bool isShooting = false;
     [Header("GunSpesifications")]
     public float EquipDelayAmount;
     public float AmmoAmount;
@@ -44,6 +45,7 @@ public class GunScript : MonoBehaviourPunCallbacks
     float lerpTarget = 0;
     bool CamYisLerp = false;
     float CamYlerpTarget = 0;
+    public float AimFov;
 
 
 
@@ -90,8 +92,8 @@ public class GunScript : MonoBehaviourPunCallbacks
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, SwaySmooth * Time.fixedDeltaTime);
         //cameraShake
             PlayerMovement playerMovement = transform.root.GetComponent<PlayerMovement>();;
-            playerMovement.camX = isLerp && Shooting ? Mathf.Lerp(playerMovement.camX, +lerpTarget, GunRecoilLerpSpeed) : playerMovement.camX;
-            playerMovement.camY = CamYisLerp && Shooting ? Mathf.Lerp(playerMovement.camY, +CamYlerpTarget, GunRecoilYLerpSpeed) : playerMovement.camY;
+            playerMovement.camX = isLerp && isShooting ? Mathf.Lerp(playerMovement.camX, +lerpTarget, GunRecoilLerpSpeed) : playerMovement.camX;
+            playerMovement.camY = CamYisLerp && isShooting ? Mathf.Lerp(playerMovement.camY, +CamYlerpTarget, GunRecoilYLerpSpeed) : playerMovement.camY;
             if(playerMovement.camY == CamYlerpTarget) CamYisLerp = false;
             if(playerMovement.camX == lerpTarget) isLerp = false;
         }else{
@@ -106,6 +108,7 @@ public class GunScript : MonoBehaviourPunCallbacks
         Shooting = true;
         AmmoAmount -= 1;
         StartCoroutine(ShootDelay());
+        StartCoroutine(LerpStop());
         Flash.Play();
         photonView.RPC("ShootSoundPlay", RpcTarget.AllBuffered);
         GunAnim.SetTrigger("Shoot");
@@ -129,6 +132,13 @@ public class GunScript : MonoBehaviourPunCallbacks
         isLerp = true;
         CamYlerpTarget = transform.root.GetComponent<PlayerMovement>().camY - Random.Range(GunRecoilYLeft, GunRecoilYRight);
         CamYisLerp = true;
+    }
+    IEnumerator LerpStop(){
+        isShooting = true;
+        yield return new WaitForSeconds(0.2f);
+        isShooting = false;
+        isLerp = false;
+        CamYisLerp = false;
     }
     IEnumerator ShootDelay(){
         Shoot = false;
@@ -169,6 +179,8 @@ public class GunScript : MonoBehaviourPunCallbacks
         Equiping = false;
         Shoot = true;
         Reloading = false;
+        isLerp = false;
+        CamYisLerp = false;
     }
     //coroutine that makes the weapon not be pickuppable for a short time
     IEnumerator EquipDelayPickup(){

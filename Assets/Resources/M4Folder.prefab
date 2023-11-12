@@ -11135,6 +11135,7 @@ MonoBehaviour:
   GunRecoilYRight: 2
   GunRecoilYLeft: -2
   GunRecoilYLerpSpeed: 0.05
+  AimFov: 50
 --- !u!82 &2218248550596559440
 AudioSource:
   m_ObjectHideFlags: 0

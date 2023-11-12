@@ -297,21 +297,30 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             Aiming = !Aiming;
             HasLerped = false;
         }
-        if (Aiming && !HasLerped) {
-        HandObject.transform.localPosition = Vector3.Lerp(HandObject.transform.localPosition, AimPosition.transform.localPosition, HandLerpSpeed * Time.fixedDeltaTime);
-        if (Vector3.Distance(HandObject.transform.localPosition, AimPosition.transform.localPosition) < 0.01f) {
-            HandObject.transform.localPosition = AimPosition.transform.localPosition;
-            HasLerped = true;
-        }
-    }
+        if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null || weaponSlots[currentWeapon].GetComponent<RPGScript>() != null){
+            if (Aiming && !HasLerped) {
+                HandObject.transform.localPosition = Vector3.Lerp(HandObject.transform.localPosition, AimPosition.transform.localPosition, HandLerpSpeed * Time.fixedDeltaTime);
+                if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
+                MyCamera.fieldOfView = Mathf.Lerp(MyCamera.fieldOfView, weaponSlots[currentWeapon].GetComponent<GunScript>().AimFov, 0.1f);
+                }else{
+                    MyCamera.fieldOfView = Mathf.Lerp(MyCamera.fieldOfView, weaponSlots[currentWeapon].GetComponent<RPGScript>().AimFov, 0.1f);
+                }
+                if (Vector3.Distance(HandObject.transform.localPosition, AimPosition.transform.localPosition) < 0.01f) {
+                    HandObject.transform.localPosition = AimPosition.transform.localPosition;
+                    HasLerped = true;
+                }
+            }
 
-    if (!Aiming && !HasLerped) {
-        HandObject.transform.localPosition = Vector3.Lerp(HandObject.transform.localPosition, HipPosition.transform.localPosition, HandLerpSpeed * Time.fixedDeltaTime);
-        if (Vector3.Distance(HandObject.transform.localPosition, HipPosition.transform.localPosition) < 0.01f) {
-            HandObject.transform.localPosition = HipPosition.transform.localPosition;
-            HasLerped = true;
+            if (!Aiming && !HasLerped) {
+                HandObject.transform.localPosition = Vector3.Lerp(HandObject.transform.localPosition, HipPosition.transform.localPosition, HandLerpSpeed * Time.fixedDeltaTime);
+                MyCamera.fieldOfView = Mathf.Lerp(MyCamera.fieldOfView, 60, 0.1f);
+                if (Vector3.Distance(HandObject.transform.localPosition, HipPosition.transform.localPosition) < 0.01f) {
+                    HandObject.transform.localPosition = HipPosition.transform.localPosition;
+                    HasLerped = true;
+                }
+            }
         }
-    }
+        
         
     }else{
         Destroy(PlayerUI.gameObject);
@@ -375,6 +384,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     [PunRPC]
     public void DropGun(){
         weaponSlots[currentWeapon].transform.SetParent(null);
+        weaponSlots[currentWeapon].GetComponent<Collider>().enabled = true;
         if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
         weaponSlots[currentWeapon].GetComponent<GunScript>().Enabled = false;
         }else{
@@ -426,6 +436,8 @@ void SyncPickup(int gunViewID, int slotIndex)
     weaponSlots[slotIndex].transform.position = HandObject.transform.position;
     weaponSlots[slotIndex].transform.rotation = HandObject.transform.rotation;
     weaponSlots[slotIndex].transform.parent = HandObject.transform;
+    //Disable Guns Collider when picked up
+        weaponSlots[slotIndex].GetComponent<Collider>().enabled = false;
     if(weaponSlots[slotIndex].GetComponent<GunScript>() != null){
         weaponSlots[slotIndex].GetComponent<GunScript>().Enabled = true;
     }else{
