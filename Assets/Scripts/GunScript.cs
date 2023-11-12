@@ -107,7 +107,7 @@ public class GunScript : MonoBehaviourPunCallbacks
         AmmoAmount -= 1;
         StartCoroutine(ShootDelay());
         Flash.Play();
-        ShootSound.Play();
+        photonView.RPC("ShootSoundPlay", RpcTarget.AllBuffered);
         GunAnim.SetTrigger("Shoot");
         if (GunCam != null && Physics.Raycast(GunCam.transform.position, CalculateBulletDirection(), out GunHit, GunRange))
         {
@@ -174,5 +174,9 @@ public class GunScript : MonoBehaviourPunCallbacks
     IEnumerator EquipDelayPickup(){
         yield return new WaitForSeconds(1f);
         GetComponent<BoxCollider>().enabled = true;
+    }
+    [PunRPC]
+    public void ShootSoundPlay(){
+        ShootSound.Play();
     }
 }

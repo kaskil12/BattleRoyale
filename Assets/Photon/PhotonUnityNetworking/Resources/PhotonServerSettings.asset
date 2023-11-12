@@ -60,6 +60,7 @@ MonoBehaviour:
   - DestroyAfterDelay
   - DestroyObject
   - HealPlayer
+  - ShootSoundPlay
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
