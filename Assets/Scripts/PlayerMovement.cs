@@ -319,6 +319,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                     HasLerped = true;
                 }
             }
+        }else{
+            MyCamera.fieldOfView = Mathf.Lerp(MyCamera.fieldOfView, 60, 0.1f);
         }
         
         
