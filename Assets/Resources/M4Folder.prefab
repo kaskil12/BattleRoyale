@@ -12186,7 +12186,7 @@ MonoBehaviour:
   GunRecoilYLeft: -2
   GunRecoilYLerpSpeed: 0.05
   AimFov: 50
-  GunOffset: {x: -0.65, y: -0.3, z: 0}
+  GunOffset: {x: -0.28, y: -0.28, z: 0.48}
 --- !u!82 &2218248550596559440
 AudioSource:
   m_ObjectHideFlags: 0
