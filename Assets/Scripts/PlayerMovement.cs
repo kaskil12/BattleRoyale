@@ -435,9 +435,13 @@ void SyncPickup(int gunViewID, int slotIndex)
     GameObject gun = PhotonView.Find(gunViewID).gameObject;
 
     weaponSlots[slotIndex] = gun;
-    weaponSlots[slotIndex].transform.position = HandObject.transform.position;
     weaponSlots[slotIndex].transform.rotation = HandObject.transform.rotation;
     weaponSlots[slotIndex].transform.parent = HandObject.transform;
+    if(weaponSlots[slotIndex].GetComponent<GunScript>() != null){
+        weaponSlots[slotIndex].transform.localPosition = weaponSlots[slotIndex].GetComponent<GunScript>().GunOffset;
+    }else if(weaponSlots[slotIndex].GetComponent<RPGScript>() != null){
+        weaponSlots[slotIndex].transform.localPosition = weaponSlots[slotIndex].GetComponent<RPGScript>().GunOffset;
+    }
     //Disable Guns Collider when picked up
         weaponSlots[slotIndex].GetComponent<Collider>().enabled = false;
     if(weaponSlots[slotIndex].GetComponent<GunScript>() != null){

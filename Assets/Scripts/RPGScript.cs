@@ -46,6 +46,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
     bool CamYisLerp = false;
     float CamYlerpTarget = 0;
     public float AimFov;
+    public Vector3 GunOffset;
 
 
 
