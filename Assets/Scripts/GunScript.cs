@@ -23,6 +23,8 @@ public class GunScript : MonoBehaviourPunCallbacks
     public bool GunRun;
     public bool WalkingPlayer;
     bool isShooting = false;
+    public Transform LeftHand;
+    public Transform RightHand;
     [Header("GunSpesifications")]
     public float EquipDelayAmount;
     public float AmmoAmount;

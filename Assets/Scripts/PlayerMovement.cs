@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using UnityEngine.Animations.Rigging;
+using UnityEngine.Animations;
 
 
 public class PlayerMovement : MonoBehaviourPunCallbacks
@@ -66,6 +68,12 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public GameObject[] SpawnPositions;
     private bool hasAppliedForce = false;
     bool SlideDelay;
+    [Header("Arms")]
+    public TwoBoneIKConstraint LeftArm;
+    public TwoBoneIKConstraint RightArm;
+    public Transform LeftHandIdle;
+    public Transform RightHandIdle;
+    public RigBuilder rigBuilder;
     
 
     
@@ -100,7 +108,17 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             MyCamera = GetComponentInChildren<Camera>();
             Body.GetComponent<MeshRenderer>().enabled = false;
             
-          
+            if(weaponSlots[currentWeapon] != null){
+                Transform LeftHand = weaponSlots[currentWeapon].GetComponent<GunScript>().LeftHand;
+                Transform RightHand = weaponSlots[currentWeapon].GetComponent<GunScript>().RightHand;
+                LeftArm.data.target = LeftHand;
+                RightArm.data.target = RightHand;
+                // rigBuilder.Build();
+            }else{
+                LeftArm.data.target = LeftHandIdle;
+                RightArm.data.target = RightHandIdle;
+                // rigBuilder.Build();
+            }
             if(weaponSlots[currentWeapon] != null){
                 AmmoText.enabled = true;
                 if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
