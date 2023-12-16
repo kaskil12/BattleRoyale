@@ -73,7 +73,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public TwoBoneIKConstraint RightArm;
     public Transform LeftHandIdle;
     public Transform RightHandIdle;
+    public Transform LeftHand;
+    public Transform RightHand;
     public RigBuilder rigBuilder;
+    public Transform newLeftHand;
+    public Transform newRightHand;
     
 
     
@@ -108,17 +112,42 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             MyCamera = GetComponentInChildren<Camera>();
             Body.GetComponent<MeshRenderer>().enabled = false;
             
-            if(weaponSlots[currentWeapon] != null){
-                Transform LeftHand = weaponSlots[currentWeapon].GetComponent<GunScript>().LeftHand;
-                Transform RightHand = weaponSlots[currentWeapon].GetComponent<GunScript>().RightHand;
-                LeftArm.data.target = LeftHand;
-                RightArm.data.target = RightHand;
-                rigBuilder.Build();
-            }else{
-                LeftArm.data.target = LeftHandIdle;
-                RightArm.data.target = RightHandIdle;
-                rigBuilder.Build();
+
+            bool handsChanged = false;
+
+            if (weaponSlots[currentWeapon] != null)
+            {
+                if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
+                newLeftHand = weaponSlots[currentWeapon].GetComponent<GunScript>().LeftHand;
+                newRightHand = weaponSlots[currentWeapon].GetComponent<GunScript>().RightHand;
+                }else{
+                    newLeftHand = weaponSlots[currentWeapon].GetComponent<RPGScript>().LeftHand;
+                    newRightHand = weaponSlots[currentWeapon].GetComponent<RPGScript>().RightHand;
+                }
+
+                if (LeftHand != newLeftHand || RightHand != newRightHand)
+                {
+                    LeftHand = newLeftHand;
+                    RightHand = newRightHand;
+                    handsChanged = true;
+                }
             }
+            else
+            {
+                if (LeftHand != LeftHandIdle || RightHand != RightHandIdle)
+                {
+                    LeftHand = LeftHandIdle;
+                    RightHand = RightHandIdle;
+                    handsChanged = true;
+                }
+            }
+
+            if (handsChanged)
+            {
+                buildRig();
+                photonView.RPC("buildRig", RpcTarget.AllBuffered);
+            }
+
             if(weaponSlots[currentWeapon] != null){
                 AmmoText.enabled = true;
                 if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
@@ -218,6 +247,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }
       if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            photonView.RPC("buildRig", RpcTarget.AllBuffered);
+            buildRig();
             currentWeapon = 0;
             photonView.RPC("GunSlot1", RpcTarget.AllBuffered);
             ActivateCurrentGun();
@@ -230,6 +261,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
+            photonView.RPC("buildRig", RpcTarget.AllBuffered);
+            buildRig();
             currentWeapon = 1;
             photonView.RPC("GunSlot2", RpcTarget.AllBuffered);
             ActivateCurrentGun();
@@ -242,6 +275,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            photonView.RPC("buildRig", RpcTarget.AllBuffered);
+            buildRig();
             currentWeapon = 2;
             photonView.RPC("GunSlot3", RpcTarget.AllBuffered);
             ActivateCurrentGun();
@@ -355,6 +390,12 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             hasAppliedForce = true;
         }
     }
+    [PunRPC]
+    public void buildRig(){
+        LeftArm.data.target = LeftHand;
+        RightArm.data.target = RightHand;
+        rigBuilder.Build();
+    }
     IEnumerator AfterSlide(){
         GetComponentInChildren<CapsuleCollider>().height = CapsuleHeight;
         yield return new WaitForSeconds(0.4f);
@@ -413,6 +454,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         weaponSlots[currentWeapon].transform.position = Unequip.transform.position;
         weaponSlots[currentWeapon].transform.rotation = Unequip.transform.rotation;
         weaponSlots[currentWeapon] = null;
+        buildRig();
+        photonView.RPC("buildRig", RpcTarget.AllBuffered);
     }
     
     [PunRPC]
@@ -467,6 +510,8 @@ void SyncPickup(int gunViewID, int slotIndex)
     }else{
         weaponSlots[slotIndex].GetComponent<RPGScript>().Enabled = true;
     }
+    photonView.RPC("buildRig", RpcTarget.AllBuffered);
+    buildRig();
 }
 
     IEnumerator Dying(){

@@ -61,6 +61,7 @@ MonoBehaviour:
   - DestroyObject
   - HealPlayer
   - ShootSoundPlay
+  - buildRig
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
