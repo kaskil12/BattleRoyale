@@ -113,11 +113,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                 Transform RightHand = weaponSlots[currentWeapon].GetComponent<GunScript>().RightHand;
                 LeftArm.data.target = LeftHand;
                 RightArm.data.target = RightHand;
-                // rigBuilder.Build();
+                rigBuilder.Build();
             }else{
                 LeftArm.data.target = LeftHandIdle;
                 RightArm.data.target = RightHandIdle;
-                // rigBuilder.Build();
+                rigBuilder.Build();
             }
             if(weaponSlots[currentWeapon] != null){
                 AmmoText.enabled = true;
