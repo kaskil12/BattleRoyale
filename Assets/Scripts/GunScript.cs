@@ -66,6 +66,9 @@ public class GunScript : MonoBehaviourPunCallbacks
     void Update()
     {
         if(Enabled){
+            GetComponent<BoxCollider>().enabled = false;
+            GunAnim.enabled = true;
+
             Transform parentTransform = transform.parent;
             if(!Shooting && !Reloading && parentTransform.parent.parent.GetComponentInParent<PlayerMovement>().Running){
                 GunAnim.SetBool("Run", true);
@@ -102,6 +105,7 @@ public class GunScript : MonoBehaviourPunCallbacks
         }else{
             if(!Enabled){
             GunAnim.SetBool("Run", false);
+            GunAnim.enabled = false;
             }
         }
     }
@@ -187,7 +191,7 @@ public class GunScript : MonoBehaviourPunCallbacks
     }
     //coroutine that makes the weapon not be pickuppable for a short time
     IEnumerator EquipDelayPickup(){
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
         GetComponent<BoxCollider>().enabled = true;
     }
     [PunRPC]

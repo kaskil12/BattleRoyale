@@ -2660,7 +2660,7 @@ MonoBehaviour:
     m_Hint: {fileID: 3087487476339961402}
     m_TargetPositionWeight: 1
     m_TargetRotationWeight: 1
-    m_HintWeight: 1
+    m_HintWeight: 0.5
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
 --- !u!1 &5391657021782971147
@@ -4821,7 +4821,7 @@ MonoBehaviour:
     m_Hint: {fileID: 2884749310247398226}
     m_TargetPositionWeight: 1
     m_TargetRotationWeight: 1
-    m_HintWeight: 1
+    m_HintWeight: 0.5
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
 --- !u!1 &8929184696509793966

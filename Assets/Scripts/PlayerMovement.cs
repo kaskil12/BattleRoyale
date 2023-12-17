@@ -350,7 +350,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             Aiming = !Aiming;
             HasLerped = false;
         }
-        if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null || weaponSlots[currentWeapon].GetComponent<RPGScript>() != null){
+        if(weaponSlots[currentWeapon] != null && weaponSlots[currentWeapon].GetComponent<GunScript>() != null || weaponSlots[currentWeapon] != null && weaponSlots[currentWeapon].GetComponent<RPGScript>() != null){
             if (Aiming && !HasLerped) {
                 HandObject.transform.localPosition = Vector3.Lerp(HandObject.transform.localPosition, AimPosition.transform.localPosition, HandLerpSpeed * Time.fixedDeltaTime);
                 if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
@@ -451,8 +451,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }else{
             weaponSlots[currentWeapon].GetComponent<RPGScript>().Enabled = false;
         }
-        weaponSlots[currentWeapon].transform.position = Unequip.transform.position;
-        weaponSlots[currentWeapon].transform.rotation = Unequip.transform.rotation;
+        weaponSlots[currentWeapon].transform.position = HandObject.transform.position;
+        weaponSlots[currentWeapon].transform.rotation = HandObject.transform.rotation;
+        weaponSlots[currentWeapon].GetComponent<Rigidbody>().isKinematic = false;
+        weaponSlots[currentWeapon].GetComponent<BoxCollider>().enabled = true;
         weaponSlots[currentWeapon] = null;
         buildRig();
         photonView.RPC("buildRig", RpcTarget.AllBuffered);
@@ -496,6 +498,8 @@ void SyncPickup(int gunViewID, int slotIndex)
     GameObject gun = PhotonView.Find(gunViewID).gameObject;
 
     weaponSlots[slotIndex] = gun;
+    weaponSlots[slotIndex].GetComponent<Rigidbody>().isKinematic = true;
+    weaponSlots[slotIndex].GetComponent<BoxCollider>().enabled = true;
     weaponSlots[slotIndex].transform.rotation = HandObject.transform.rotation;
     weaponSlots[slotIndex].transform.parent = HandObject.transform;
     if(weaponSlots[slotIndex].GetComponent<GunScript>() != null){
