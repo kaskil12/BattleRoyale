@@ -4496,6 +4496,10 @@ MonoBehaviour:
   rigBuilder: {fileID: 549861841283061920}
   newLeftHand: {fileID: 0}
   newRightHand: {fileID: 0}
+  RightHint: {fileID: 0}
+  LeftHint: {fileID: 0}
+  NewRightHint: {fileID: 0}
+  NewLeftHint: {fileID: 0}
 --- !u!54 &7880190006208159896
 Rigidbody:
   m_ObjectHideFlags: 0

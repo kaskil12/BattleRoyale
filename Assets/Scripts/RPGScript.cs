@@ -24,6 +24,8 @@ public class RPGScript : MonoBehaviourPunCallbacks
     bool isShooting = false;
     public Transform LeftHand;
     public Transform RightHand;
+    public Transform RightHint;
+    public Transform LeftHint;
     [Header("GunSpesifications")]
     public float EquipDelayAmount;
     public float ProjectileSpeed;

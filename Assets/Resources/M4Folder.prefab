@@ -11043,6 +11043,8 @@ MonoBehaviour:
   WalkingPlayer: 0
   LeftHand: {fileID: 5515569294269066307}
   RightHand: {fileID: 756784215756398476}
+  RightHint: {fileID: 0}
+  LeftHint: {fileID: 0}
   EquipDelayAmount: 1
   AmmoAmount: 30
   RunningAccuracy: 0.2

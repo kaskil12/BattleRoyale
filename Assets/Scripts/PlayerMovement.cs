@@ -78,6 +78,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public RigBuilder rigBuilder;
     public Transform newLeftHand;
     public Transform newRightHand;
+    public Transform RightHint;
+    public Transform LeftHint;
+    public Transform NewRightHint;
+    public Transform NewLeftHint;
     
 
     
@@ -120,15 +124,22 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                 if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
                 newLeftHand = weaponSlots[currentWeapon].GetComponent<GunScript>().LeftHand;
                 newRightHand = weaponSlots[currentWeapon].GetComponent<GunScript>().RightHand;
+                NewLeftHint = weaponSlots[currentWeapon].GetComponent<GunScript>().LeftHint;
+                NewRightHint = weaponSlots[currentWeapon].GetComponent<GunScript>().RightHint;
                 }else{
+                    NewLeftHint = weaponSlots[currentWeapon].GetComponent<RPGScript>().LeftHint;
+                    NewRightHint = weaponSlots[currentWeapon].GetComponent<RPGScript>().RightHint;
                     newLeftHand = weaponSlots[currentWeapon].GetComponent<RPGScript>().LeftHand;
                     newRightHand = weaponSlots[currentWeapon].GetComponent<RPGScript>().RightHand;
+
                 }
 
-                if (LeftHand != newLeftHand || RightHand != newRightHand)
+                if (LeftHand != newLeftHand || RightHand != newRightHand || LeftHint != NewLeftHint || RightHint != NewRightHint)
                 {
                     LeftHand = newLeftHand;
                     RightHand = newRightHand;
+                    RightHint = NewRightHint;
+                    LeftHint = NewLeftHint;
                     handsChanged = true;
                 }
             }
@@ -394,6 +405,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public void buildRig(){
         LeftArm.data.target = LeftHand;
         RightArm.data.target = RightHand;
+        LeftArm.data.hint = LeftHint;
+        RightArm.data.hint = RightHint;
         rigBuilder.Build();
     }
     IEnumerator AfterSlide(){
