@@ -117,47 +117,47 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             Body.GetComponent<MeshRenderer>().enabled = false;
             
 
-            bool handsChanged = false;
+            // bool handsChanged = false;
 
-            if (weaponSlots[currentWeapon] != null)
-            {
-                if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
-                newLeftHand = weaponSlots[currentWeapon].GetComponent<GunScript>().LeftHand;
-                newRightHand = weaponSlots[currentWeapon].GetComponent<GunScript>().RightHand;
-                NewLeftHint = weaponSlots[currentWeapon].GetComponent<GunScript>().LeftHint;
-                NewRightHint = weaponSlots[currentWeapon].GetComponent<GunScript>().RightHint;
-                }else{
-                    NewLeftHint = weaponSlots[currentWeapon].GetComponent<RPGScript>().LeftHint;
-                    NewRightHint = weaponSlots[currentWeapon].GetComponent<RPGScript>().RightHint;
-                    newLeftHand = weaponSlots[currentWeapon].GetComponent<RPGScript>().LeftHand;
-                    newRightHand = weaponSlots[currentWeapon].GetComponent<RPGScript>().RightHand;
+            // if (weaponSlots[currentWeapon] != null)
+            // {
+            //     if(weaponSlots[currentWeapon].GetComponent<GunScript>() != null){
+            //     newLeftHand = weaponSlots[currentWeapon].GetComponent<GunScript>().LeftHand;
+            //     newRightHand = weaponSlots[currentWeapon].GetComponent<GunScript>().RightHand;
+            //     NewLeftHint = weaponSlots[currentWeapon].GetComponent<GunScript>().LeftHint;
+            //     NewRightHint = weaponSlots[currentWeapon].GetComponent<GunScript>().RightHint;
+            //     }else{
+            //         NewLeftHint = weaponSlots[currentWeapon].GetComponent<RPGScript>().LeftHint;
+            //         NewRightHint = weaponSlots[currentWeapon].GetComponent<RPGScript>().RightHint;
+            //         newLeftHand = weaponSlots[currentWeapon].GetComponent<RPGScript>().LeftHand;
+            //         newRightHand = weaponSlots[currentWeapon].GetComponent<RPGScript>().RightHand;
 
-                }
+            //     }
 
-                if (LeftHand != newLeftHand || RightHand != newRightHand || LeftHint != NewLeftHint || RightHint != NewRightHint)
-                {
-                    LeftHand = newLeftHand;
-                    RightHand = newRightHand;
-                    RightHint = NewRightHint;
-                    LeftHint = NewLeftHint;
-                    handsChanged = true;
-                }
-            }
-            else
-            {
-                if (LeftHand != LeftHandIdle || RightHand != RightHandIdle)
-                {
-                    LeftHand = LeftHandIdle;
-                    RightHand = RightHandIdle;
-                    handsChanged = true;
-                }
-            }
+            //     if (LeftHand != newLeftHand || RightHand != newRightHand || LeftHint != NewLeftHint || RightHint != NewRightHint)
+            //     {
+            //         LeftHand = newLeftHand;
+            //         RightHand = newRightHand;
+            //         RightHint = NewRightHint;
+            //         LeftHint = NewLeftHint;
+            //         handsChanged = true;
+            //     }
+            // }
+            // else
+            // {
+            //     if (LeftHand != LeftHandIdle || RightHand != RightHandIdle)
+            //     {
+            //         LeftHand = LeftHandIdle;
+            //         RightHand = RightHandIdle;
+            //         handsChanged = true;
+            //     }
+            // }
 
-            if (handsChanged)
-            {
-                buildRig();
-                photonView.RPC("buildRig", RpcTarget.AllBuffered);
-            }
+            // if (handsChanged)
+            // {
+            //     buildRig();
+            //     photonView.RPC("buildRig", RpcTarget.AllBuffered);
+            // }
 
             if(weaponSlots[currentWeapon] != null){
                 AmmoText.enabled = true;
@@ -258,8 +258,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }
       if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            photonView.RPC("buildRig", RpcTarget.AllBuffered);
-            buildRig();
+            // photonView.RPC("buildRig", RpcTarget.AllBuffered);
+            // buildRig();
             currentWeapon = 0;
             photonView.RPC("GunSlot1", RpcTarget.AllBuffered);
             ActivateCurrentGun();
@@ -272,8 +272,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            photonView.RPC("buildRig", RpcTarget.AllBuffered);
-            buildRig();
+            // photonView.RPC("buildRig", RpcTarget.AllBuffered);
+            // buildRig();
             currentWeapon = 1;
             photonView.RPC("GunSlot2", RpcTarget.AllBuffered);
             ActivateCurrentGun();
@@ -286,8 +286,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            photonView.RPC("buildRig", RpcTarget.AllBuffered);
-            buildRig();
+            // photonView.RPC("buildRig", RpcTarget.AllBuffered);
+            // buildRig();
             currentWeapon = 2;
             photonView.RPC("GunSlot3", RpcTarget.AllBuffered);
             ActivateCurrentGun();
@@ -401,14 +401,14 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             hasAppliedForce = true;
         }
     }
-    [PunRPC]
-    public void buildRig(){
-        LeftArm.data.target = LeftHand;
-        RightArm.data.target = RightHand;
-        LeftArm.data.hint = LeftHint;
-        RightArm.data.hint = RightHint;
-        rigBuilder.Build();
-    }
+    // [PunRPC]
+    // public void buildRig(){
+    //     LeftArm.data.target = LeftHand;
+    //     RightArm.data.target = RightHand;
+    //     LeftArm.data.hint = LeftHint;
+    //     RightArm.data.hint = RightHint;
+    //     rigBuilder.Build();
+    // }
     IEnumerator AfterSlide(){
         GetComponentInChildren<CapsuleCollider>().height = CapsuleHeight;
         yield return new WaitForSeconds(0.4f);
@@ -469,8 +469,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         weaponSlots[currentWeapon].GetComponent<Rigidbody>().isKinematic = false;
         weaponSlots[currentWeapon].GetComponent<BoxCollider>().enabled = true;
         weaponSlots[currentWeapon] = null;
-        buildRig();
-        photonView.RPC("buildRig", RpcTarget.AllBuffered);
+        // buildRig();
+        // photonView.RPC("buildRig", RpcTarget.AllBuffered);
     }
     
     [PunRPC]
@@ -527,8 +527,8 @@ void SyncPickup(int gunViewID, int slotIndex)
     }else{
         weaponSlots[slotIndex].GetComponent<RPGScript>().Enabled = true;
     }
-    photonView.RPC("buildRig", RpcTarget.AllBuffered);
-    buildRig();
+    // photonView.RPC("buildRig", RpcTarget.AllBuffered);
+    // buildRig();
 }
 
     IEnumerator Dying(){

@@ -27,6 +27,7 @@ public class GunScript : MonoBehaviourPunCallbacks
     public Transform RightHand;
     public Transform RightHint;
     public Transform LeftHint;
+    public GameObject[] Arms;
     [Header("GunSpesifications")]
     public float EquipDelayAmount;
     public float AmmoAmount;
@@ -68,6 +69,9 @@ public class GunScript : MonoBehaviourPunCallbacks
     void Update()
     {
         if(Enabled){
+            foreach(GameObject armobj in Arms){
+                armobj.SetActive(true);
+            }
             GetComponent<BoxCollider>().enabled = false;
             GunAnim.enabled = true;
 
@@ -106,6 +110,9 @@ public class GunScript : MonoBehaviourPunCallbacks
             if(playerMovement.camX == lerpTarget) isLerp = false;
         }else{
             if(!Enabled){
+            foreach(GameObject armobj in Arms){
+                armobj.SetActive(false);
+            }
             GunAnim.SetBool("Run", false);
             GunAnim.enabled = false;
             }

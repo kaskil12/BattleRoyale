@@ -26,6 +26,7 @@ public class RPGScript : MonoBehaviourPunCallbacks
     public Transform RightHand;
     public Transform RightHint;
     public Transform LeftHint;
+    public GameObject[] Arms;
     [Header("GunSpesifications")]
     public float EquipDelayAmount;
     public float ProjectileSpeed;
@@ -68,6 +69,9 @@ public class RPGScript : MonoBehaviourPunCallbacks
     void Update()
     {
         if(Enabled){
+            foreach(GameObject armobj in Arms){
+                armobj.SetActive(true);
+            }
             GunAnim.enabled = true;
             GetComponent<BoxCollider>().enabled = false;
             Transform parentTransform = transform.parent;
@@ -114,6 +118,9 @@ public class RPGScript : MonoBehaviourPunCallbacks
             if(!Enabled){
             GunAnim.SetBool("Run", false);
             GunAnim.enabled = false;
+            foreach(GameObject armobj in Arms){
+                armobj.SetActive(false);
+            }
             }
         }
     }
